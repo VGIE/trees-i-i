@@ -1,5 +1,6 @@
 
 using System;
+using System.Runtime.CompilerServices;
 using Lists;
 
 namespace Trees
@@ -8,12 +9,14 @@ namespace Trees
     {
         private T Value;
         //TODO #1: Declare a member variable called "Children" as a list of TreeNode<T> objects
-        
+        private List<TreeNode<T>> Children;
+        private TreeNode<T> RootNode;
 
         public TreeNode(T value)
         {
             //TODO #2: Initialize member variables/attributes
-            
+            RootNode.Children = Children;
+            RootNode.Value = value;
         }
 
         public string ToString(int depth, int index)
