@@ -20,28 +20,26 @@ namespace Trees
         {
             //TODO #3: Uncomment the code below
             
-            //string output = null;
-            //string leftSpace = null;
-            //for (int i = 0; i < depth; i++) leftSpace += " ";
-            //if (leftSpace != null) leftSpace += "->";
+            string output = null;
+            string leftSpace = null;
+            for (int i = 0; i < depth; i++) leftSpace += " ";
+            if (leftSpace != null) leftSpace += "->";
 
-            //output += $"{leftSpace}[{Value}]\n";
+            output += $"{leftSpace}[{Value}]\n";
 
-            //for (int childIndex = 0; childIndex < Children.Count(); childIndex++)
-            //{
-            //    TreeNode<T> child = Children.Get(childIndex);
-            //    output += child.ToString(depth + 1, childIndex);
-            //}
-            //return output;
-            
-            return null;
+            for (int childIndex = 0; childIndex < Children.Count(); childIndex++)
+            {
+                TreeNode<T> child = Children.Get(childIndex);
+                output += child.ToString(depth + 1, childIndex);
+            }
+            return output;
         }
 
         public TreeNode<T> Add(T value)
         {
             //TODO #4: Add a new instance of class GenericTreeNode<T> with Value=value. Return the instance we just created
-            
-            return null;
+            TreeNode<T> Value = new TreeNode<T>(value);
+            return Value;
             
         }
 
