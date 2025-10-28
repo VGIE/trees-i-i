@@ -79,9 +79,11 @@ namespace BinaryTrees
             //          - Create a new tree node with the key/values in the center of the [start,end] section of the arrays
             //          - Recursive call to AddBalanced with the elements on the left of center [start,center-1]. Add the result to the new node as LeftNode
             //          - Recursive call to AddBalanced with the elements on the right of center [center+1,end]. Add the result to the new node as RightNode
-            
-            return null;
-            
+            int center = (end - start) / 2;
+            BinaryTreeNode<TKey, TValue> binaryTree = new BinaryTreeNode<TKey, TValue>(keys[center], values[center]);
+            AddBalanced(keys, values, center + 1, end);
+            AddBalanced(keys, values, start, center + 1);
+            return binaryTree;
         }
 
         public void Balance()
