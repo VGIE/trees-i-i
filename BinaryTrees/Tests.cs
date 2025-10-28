@@ -64,7 +64,7 @@ namespace BinaryTrees
             int height = tree.Height();
             if (height != 5)
             {
-                onError($"Error. Height() returned {height} instead of 6");
+                onError($"Error. Height() returned {height} instead of 5");
                 return false;
             }
             onProgress("Ok");

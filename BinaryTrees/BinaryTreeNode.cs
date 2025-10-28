@@ -49,7 +49,12 @@ namespace BinaryTrees
             //          -If the current node and the new node have the same key, just update this node's value with the new node's value
             if (Key.CompareTo(node.Key) == -1)
             {
-                if (LeftChild != null) LeftChild.Add(node);
+                if (LeftChild != null)
+                {
+                    LeftChild.Add(node);
+                    return;
+                }
+                
                 LeftChild = node;
 
             }
@@ -59,7 +64,11 @@ namespace BinaryTrees
             }
             else
             {
-                if (RightChild != null) RightChild.Add(node);
+                if (RightChild != null) 
+                {
+                    RightChild.Add(node);
+                    return;
+                }
                 RightChild = node;
             }
         }
@@ -68,7 +77,6 @@ namespace BinaryTrees
         {
             //TODO #3: Return the total number of elements in this tree
             int count = 1;
-            if (LeftChild.Count() == 0 && RightChild.Count() == 0) return count;
             if (LeftChild != null) count += LeftChild.Count();
             if (RightChild != null) count += RightChild.Count();
             return count;
@@ -77,11 +85,13 @@ namespace BinaryTrees
         public int Height()
         {
             //TODO #4: Return the height of this tree
-            if (LeftChild.Count() == 0 && RightChild.Count() == 0) return 0;
 
             int maxHeight;
-            int LeftChildHeight = LeftChild.Height();            
-            int RightChildHeight = RightChild.Height();
+            int LeftChildHeight = -1;
+            int RightChildHeight = -1;
+            if (LeftChild != null) LeftChildHeight = LeftChild.Height();
+            if (RightChild != null) RightChildHeight = RightChild.Height();
+            
             if (RightChildHeight > LeftChildHeight) maxHeight = RightChildHeight;
             else maxHeight = LeftChildHeight;
             
@@ -112,16 +122,12 @@ namespace BinaryTrees
             
         }
 
-        
-
         public BinaryTreeNode<TKey, TValue> Remove(TKey key)
         {
             //TODO #6: Remove the node that has this key. The parent may need to update one of its children,
             //so this method returns the node with which this node needs to be replaced. If this node isn't the
             //one we are looking for, we will return this, so that the parent node can replace LeftChild/RightChild
             //with the same node it had.
-
-            int cmp = key.CompareTo(Key);
 
             if (key.CompareTo(Key) == -1)
             {
@@ -134,7 +140,6 @@ namespace BinaryTrees
             else
             {
                 if (LeftChild == null && RightChild == null) return null;
-
                 if (LeftChild == null) return RightChild;
                 if (RightChild == null) return LeftChild;
 
@@ -145,12 +150,9 @@ namespace BinaryTrees
                 {
                     nextNode = nextNode.LeftChild;
                 }
-                Key = nextNode.Key;
-                Value = nextNode.Value;
-
-                RightChild = RightChild.Remove(nextNode.Key);
+                nextNode.LeftChild = LeftChild;
+                return RightChild;
             }
-
             return this;
         }
 
