@@ -124,34 +124,69 @@ namespace BinaryTrees
 
         public BinaryTreeNode<TKey, TValue> Remove(TKey key)
         {
-            //TODO #6: Remove the node that has this key. The parent may need to update one of its children,
-            //so this method returns the node with which this node needs to be replaced. If this node isn't the
-            //one we are looking for, we will return this, so that the parent node can replace LeftChild/RightChild
-            //with the same node it had.
 
-            if (key.CompareTo(Key) == -1)
+            if (LeftChild == null && RightChild == null)
             {
-                if (LeftChild != null) LeftChild = LeftChild.Remove(key);
+                if (Key.Equals(key)) return this;
             }
-            else if (key.CompareTo(Key) == 1)
+            else if (LeftChild == null && RightChild != null) RightChild.Remove(key);
+            
+            else if (LeftChild != null && RightChild == null) LeftChild.Remove(key);
+
+
+            BinaryTreeNode<TKey, TValue> SaveTheChildrenFromLeft, DesintegratedNode;
+            if (LeftChild.Key.Equals(key))
             {
-                if (RightChild != null) RightChild = RightChild.Remove(key);
+                if (LeftChild.LeftChild == null && LeftChild.RightChild == null) return LeftChild;
+                else if (LeftChild.LeftChild == null && LeftChild.RightChild != null)
+                {
+                    DesintegratedNode = LeftChild;
+                    LeftChild = LeftChild.RightChild;
+                    return DesintegratedNode;
+                }
+                else if (LeftChild.LeftChild != null && LeftChild.RightChild == null)
+                {
+                    DesintegratedNode = LeftChild;
+                    LeftChild = LeftChild.LeftChild;
+                    return DesintegratedNode;
+                }
+                SaveTheChildrenFromLeft = LeftChild.LeftChild;
+                DesintegratedNode = LeftChild;
+                LeftChild = LeftChild.RightChild;
+                Add(SaveTheChildrenFromLeft);
+                return DesintegratedNode;
+            }
+            else if (RightChild.Key.Equals(key))
+            {
+                if (RightChild.LeftChild == null && RightChild.RightChild == null) return RightChild;
+                else if (RightChild.LeftChild == null && RightChild.RightChild != null)
+                {
+                    DesintegratedNode = RightChild;
+                    RightChild = RightChild.RightChild;
+                    return DesintegratedNode;
+                }
+                else if (RightChild.LeftChild != null && RightChild.RightChild == null)
+                {
+                    DesintegratedNode = RightChild;
+                    RightChild = RightChild.LeftChild;
+                    return DesintegratedNode;
+                }
+                SaveTheChildrenFromLeft = RightChild.LeftChild;
+                DesintegratedNode = RightChild;
+                RightChild = RightChild.RightChild;
+                Add(SaveTheChildrenFromLeft);
+                return DesintegratedNode;
             }
             else
             {
-                if (LeftChild == null && RightChild == null) return null;
-                if (LeftChild == null) return RightChild;
-                if (RightChild == null) return LeftChild;
-
-
-                BinaryTreeNode<TKey, TValue> nextNode = RightChild;
-
-                while (nextNode.LeftChild != null)
+                if (LeftChild.Key.CompareTo(key) == 1)
                 {
-                    nextNode = nextNode.LeftChild;
+                    LeftChild.Remove(key);
                 }
-                nextNode.LeftChild = LeftChild;
-                return RightChild;
+                else
+                {
+                    RightChild.Remove(key);
+                }
             }
             return this;
         }
